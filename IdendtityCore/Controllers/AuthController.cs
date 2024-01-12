@@ -15,14 +15,13 @@ namespace IdendtityCore.Controllers
 
         private readonly UserManager<AppUser> userManager;
         private readonly SignInManager<AppUser> signInManager;
-
-        public AuthController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager)
+        private readonly RoleManager<AppRole> roleManager;
+        public AuthController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, RoleManager<AppRole> roleManager)
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
+            this.roleManager = roleManager;
         }
-
-
 
         [HttpPost, Route("Login")]
         public async Task<IActionResult> Login(UserLoginDto userLoginDto)
@@ -91,6 +90,44 @@ namespace IdendtityCore.Controllers
                     }
 
                     return BadRequest(ModelState);
+                }
+            }
+
+            // Handle model state validation errors
+            return BadRequest(ModelState);
+        }
+
+
+        [HttpPost, Route("CreateRole")]
+        public async Task<IActionResult> CreateRole(string roleName)
+        {
+            if (ModelState.IsValid)
+            {
+                // Check if the role already exists
+                var roleExists = await roleManager.RoleExistsAsync(roleName);
+
+                if (!roleExists)
+                {
+                    // Create the role
+                    var role = new AppRole { Name = roleName }; // Use AppRole instead of IdentityRole
+
+                    var result = await roleManager.CreateAsync(role);
+
+                    if (result.Succeeded)
+                    {
+                        // Role created successfully
+                        return Ok("Role created successfully.");
+                    }
+                    else
+                    {
+                        // Handle errors in result.Errors
+                        return BadRequest(result.Errors);
+                    }
+                }
+                else
+                {
+                    // Role already exists
+                    return BadRequest("Role already exists.");
                 }
             }
 

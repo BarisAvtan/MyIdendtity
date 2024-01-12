@@ -15,40 +15,20 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.LoadDataLayerExtension(builder.Configuration);
 
+//builder.Services.AddIdentity<AppUser, AppRole>()
+//        .AddEntityFrameworkStores<ApplicationContext>()
+//        .AddDefaultTokenProviders();
+
+//builder.Services.AddScoped<UserManager<AppUser>>();
+
+//builder.Services.AddScoped<RoleManager<IdentityRole>>();
+
 builder.Services.AddIdentity<AppUser, AppRole>()
-        .AddEntityFrameworkStores<ApplicationContext>()
-        .AddDefaultTokenProviders();
+    .AddEntityFrameworkStores<ApplicationContext>()
+    .AddDefaultTokenProviders();
 
 builder.Services.AddScoped<UserManager<AppUser>>();
-
-//builder.Services.AddIdentity<AppUser, AppRole>(opt =>
-//{
-//    opt.Password.RequireNonAlphanumeric = false;
-//    opt.Password.RequireLowercase = false;
-//    opt.Password.RequireUppercase = false;
-//})
-//    .AddRoleManager<RoleManager<AppRole>>()
-//    .AddErrorDescriber<CustomIdentityErrorDescriber>()
-//    .AddEntityFrameworkStores<ApplicationContext>()
-//    .AddDefaultTokenProviders();
-
-
-
-//builder.Services.ConfigureApplicationCookie(config =>
-//{
-//    config.LoginPath = new PathString("/Admin/Auth/Login");
-//    config.LogoutPath = new PathString("/Admin/Auth/Logout");
-//    config.Cookie = new CookieBuilder
-//    {
-//        Name = "myCoreIdentity",
-//        HttpOnly = true,
-//        SameSite = SameSiteMode.Strict,
-//        SecurePolicy = CookieSecurePolicy.SameAsRequest //Always //hem http den hem https den istek alýr canlýda Always yani https desteðini seç.
-//    };
-//    config.SlidingExpiration = true;
-//    config.ExpireTimeSpan = TimeSpan.FromDays(7);
-//    config.AccessDeniedPath = new PathString("/Admin/Auth/AccessDenied");
-//});
+builder.Services.AddScoped<RoleManager<AppRole>>();
 
 
 var app = builder.Build();
