@@ -98,18 +98,18 @@ namespace IdendtityCore.Controllers
         }
 
 
-        [HttpPost, Route("CreateRole")]
-        public async Task<IActionResult> CreateRole(string roleName)
+        [HttpPost, Route("AddRole")]
+        public async Task<IActionResult> AddRole(AddRole roleInfo)
         {
             if (ModelState.IsValid)
             {
                 // Check if the role already exists
-                var roleExists = await roleManager.RoleExistsAsync(roleName);
+                var roleExists = await roleManager.RoleExistsAsync(roleInfo.RoleName);
 
                 if (!roleExists)
                 {
                     // Create the role
-                    var role = new AppRole { Name = roleName }; // Use AppRole instead of IdentityRole
+                    var role = new AppRole { Name = roleInfo.RoleName }; // Use AppRole instead of IdentityRole
 
                     var result = await roleManager.CreateAsync(role);
 
