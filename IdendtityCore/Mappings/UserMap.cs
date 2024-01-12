@@ -43,15 +43,12 @@ namespace IdendtityCore.Mappings
             builder.HasMany<AppUserRole>().WithOne().HasForeignKey(ur => ur.UserId).IsRequired();
 
 
-
-            // Add the DealerId column
-            builder.Property(u => u.DealerId).IsRequired(false);
-
-            // Add the foreign key relationship with Dealer
             builder.HasOne(u => u.Dealer)
-                   .WithMany()  // Assuming you don't have a navigation property in Dealer for users
-                   .HasForeignKey(u => u.DealerId)
-                   .OnDelete(DeleteBehavior.SetNull);
+            .WithMany(d => d.Users)
+            .HasForeignKey(u => u.DealerId)
+            .IsRequired(false)
+            .OnDelete(DeleteBehavior.NoAction);
+
 
             var superadmin = new AppUser
             {
@@ -66,7 +63,6 @@ namespace IdendtityCore.Mappings
                 PhoneNumberConfirmed = true,
                 EmailConfirmed = true,
                 SecurityStamp = Guid.NewGuid().ToString(),
-                //ImageId = Guid.Parse("F71F4B9A-AA60-461D-B398-DE31001BF214")
             };
             superadmin.PasswordHash = CreatePasswordHash(superadmin, "123456");
 
@@ -83,7 +79,7 @@ namespace IdendtityCore.Mappings
                 PhoneNumberConfirmed = false,
                 EmailConfirmed = false,
                 SecurityStamp = Guid.NewGuid().ToString(),
-                //ImageId = Guid.Parse("D16A6EC7-8C50-4AB0-89A5-02B9A551F0FA")
+
             };
             admin.PasswordHash = CreatePasswordHash(admin, "123456");
 

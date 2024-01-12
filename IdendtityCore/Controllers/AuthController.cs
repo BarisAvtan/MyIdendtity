@@ -1,5 +1,6 @@
 ﻿using IdendtityCore.Entity;
 using IdendtityCore.Entity.UserEntity;
+using IdendtityCore.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -131,7 +132,7 @@ namespace IdendtityCore.Controllers
         }
 
         [HttpPost, Route("AddUser")]
-        public async Task<IActionResult> AddUser(AddUser addUser)
+        public async Task<IActionResult> AddUser(AppUser addUser)
         {
             if (ModelState.IsValid)
             {
@@ -140,14 +141,20 @@ namespace IdendtityCore.Controllers
 
                 if (existingUser == null)
                 {
-                    // Create a new user
-                    var newUser = new AppUser
-                    {
-                        UserName = addUser.Email,
-                        Email = addUser.Email,                
-                    };
 
-                    var result = await userManager.CreateAsync(newUser, addUser.Password);
+                 
+                    //// Create a new user
+                    //var newUser = new AppUser
+                    //{
+                    //    UserName = addUser.Dealer.,
+                    //    Email = addUser.Email,
+                    //    FirstName = addUser.FirstName,
+                    //    LastName= addUser.LastName,
+                    //    DealerId = addUser.
+                    //};
+                    var hashPassword = PasswordExtensions.CreatePasswordHash(addUser, addUser.PasswordHash);
+
+                    var result = await userManager.CreateAsync(addUser, hashPassword);
 
                     if (result.Succeeded)
                     {

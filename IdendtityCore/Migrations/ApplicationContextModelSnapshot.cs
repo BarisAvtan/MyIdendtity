@@ -53,21 +53,21 @@ namespace IdendtityCore.Migrations
                         new
                         {
                             Id = new Guid("16ea936c-7a28-4c30-86a2-9a9704b6115e"),
-                            ConcurrencyStamp = "7d1d2174-381a-430c-a4be-f26790822e14",
+                            ConcurrencyStamp = "32e32a97-cea8-4c6f-add7-b4e4a78b11ff",
                             Name = "Superadmin",
                             NormalizedName = "SUPERADMIN"
                         },
                         new
                         {
                             Id = new Guid("7cb750cf-3612-4fb4-9f7d-a38ba8f16bf4"),
-                            ConcurrencyStamp = "e3673962-4de4-41e8-b920-377a70c291c5",
+                            ConcurrencyStamp = "5a043c6d-fa51-4249-914c-cbae43da409e",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
                             Id = new Guid("edf6c246-41d8-475f-8d92-41dddac3aefb"),
-                            ConcurrencyStamp = "e04b1777-b7a4-4750-9d4c-d56f80e5fbde",
+                            ConcurrencyStamp = "a7725cf1-ba49-4fda-a237-9cc8d2217faa",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -183,7 +183,7 @@ namespace IdendtityCore.Migrations
                         {
                             Id = new Guid("cb94223b-ccb8-4f2f-93d7-0df96a7f065c"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "7c2ade20-eec5-4c34-a124-2926bf3e7b86",
+                            ConcurrencyStamp = "019c65aa-d253-4083-90fc-3c172e8cd977",
                             Email = "superadmin@gmail.com",
                             EmailConfirmed = true,
                             FirstName = "Barış",
@@ -191,10 +191,10 @@ namespace IdendtityCore.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "SUPERADMIN@GMAIL.COM",
                             NormalizedUserName = "SUPERADMIN@GMAIL.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAECRAvPu+MdZ7LcMtTbAKyc+gNdAFHGe8hQLKp1Yz0nGdwQdb68ZTqXBPVchw7jaTGQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEDnqD5am+mmRif6Y1TE9Kxhl+wlOJRMi6QrqkK4XAPgJKh0iR/ugpjzpwNRRdfPxeA==",
                             PhoneNumber = "+905439999999",
                             PhoneNumberConfirmed = true,
-                            SecurityStamp = "776346d4-d509-4906-b79f-5aae11c4d517",
+                            SecurityStamp = "c8c77aa6-8556-4c09-81dd-d3da36724097",
                             TwoFactorEnabled = false,
                             UserActive = false,
                             UserName = "superadmin@gmail.com"
@@ -203,7 +203,7 @@ namespace IdendtityCore.Migrations
                         {
                             Id = new Guid("3aa42229-1c0f-4630-8c1a-db879ecd0427"),
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "fb2e4f75-1df5-4c08-b7c0-da156cd3e5eb",
+                            ConcurrencyStamp = "cf50ad3b-ca90-48ca-afa9-917b75d895d6",
                             Email = "admin@gmail.com",
                             EmailConfirmed = false,
                             FirstName = "Admin",
@@ -211,10 +211,10 @@ namespace IdendtityCore.Migrations
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@GMAIL.COM",
                             NormalizedUserName = "ADMIN@GMAIL.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEAaeTV4nH3cxnv/UP9P/NwxLPTGsORETJZ85gpXuXBbLkpCO05KjeCY3H7gdWf6Epg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEFQ13E8y+Jss0hSkra3iTUqPTP/+Ot0DPKBaDlxdnwOIbWavjEWixta6fkewp8wbrA==",
                             PhoneNumber = "+905439999988",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "ba87e557-1484-4c69-9dde-50f9320857fb",
+                            SecurityStamp = "9d0ed5ee-7455-4e68-b997-f4e0e248fdc6",
                             TwoFactorEnabled = false,
                             UserActive = false,
                             UserName = "admin@gmail.com"
@@ -346,10 +346,9 @@ namespace IdendtityCore.Migrations
             modelBuilder.Entity("IdendtityCore.Entity.AppUser", b =>
                 {
                     b.HasOne("IdendtityCore.Entity.Dealer", "Dealer")
-                        .WithMany()
+                        .WithMany("Users")
                         .HasForeignKey("DealerId")
-                        .OnDelete(DeleteBehavior.SetNull)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.Navigation("Dealer");
                 });
@@ -394,6 +393,11 @@ namespace IdendtityCore.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("IdendtityCore.Entity.Dealer", b =>
+                {
+                    b.Navigation("Users");
                 });
 #pragma warning restore 612, 618
         }
