@@ -54,8 +54,6 @@ namespace IdendtityCore.Controllers
             }
         }
 
-
-
         [HttpPost, Route("ChangePassword")]
         public async Task<IActionResult> ChangePassword(ChangePasswordDto changePasswordDto)
         {
@@ -96,7 +94,6 @@ namespace IdendtityCore.Controllers
             // Handle model state validation errors
             return BadRequest(ModelState);
         }
-
 
         [HttpPost, Route("AddRole")]
         public async Task<IActionResult> AddRole(AddRole roleInfo)
