@@ -42,6 +42,17 @@ namespace IdendtityCore.Mappings
             // Each User can have many entries in the UserRole join table
             builder.HasMany<AppUserRole>().WithOne().HasForeignKey(ur => ur.UserId).IsRequired();
 
+
+
+            // Add the DealerId column
+            builder.Property(u => u.DealerId).IsRequired(false);
+
+            // Add the foreign key relationship with Dealer
+            builder.HasOne(u => u.Dealer)
+                   .WithMany()  // Assuming you don't have a navigation property in Dealer for users
+                   .HasForeignKey(u => u.DealerId)
+                   .OnDelete(DeleteBehavior.SetNull);
+
             var superadmin = new AppUser
             {
                 Id = Guid.Parse("CB94223B-CCB8-4F2F-93D7-0DF96A7F065C"),

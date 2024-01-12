@@ -11,8 +11,6 @@ namespace IdendtityCore.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
-
-
         private readonly UserManager<AppUser> userManager;
         private readonly SignInManager<AppUser> signInManager;
         private readonly RoleManager<AppRole> roleManager;
@@ -125,6 +123,47 @@ namespace IdendtityCore.Controllers
                 {
                     // Role already exists
                     return BadRequest("Role already exists.");
+                }
+            }
+
+            // Handle model state validation errors
+            return BadRequest(ModelState);
+        }
+
+        [HttpPost, Route("AddUser")]
+        public async Task<IActionResult> AddUser(AddUser addUser)
+        {
+            if (ModelState.IsValid)
+            {
+                // Check if the user with the same email already exists
+                var existingUser = await userManager.FindByEmailAsync(addUser.Email);
+
+                if (existingUser == null)
+                {
+                    // Create a new user
+                    var newUser = new AppUser
+                    {
+                        UserName = addUser.Email,
+                        Email = addUser.Email,                
+                    };
+
+                    var result = await userManager.CreateAsync(newUser, addUser.Password);
+
+                    if (result.Succeeded)
+                    {
+                        // User created successfully
+                        return Ok("User created successfully.");
+                    }
+                    else
+                    {
+                        // Handle errors in result.Errors
+                        return BadRequest(result.Errors);
+                    }
+                }
+                else
+                {
+                    // User with the same email already exists
+                    return BadRequest("User with the same email already exists.");
                 }
             }
 
