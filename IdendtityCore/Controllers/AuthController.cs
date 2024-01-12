@@ -1,8 +1,5 @@
 ﻿using IdendtityCore.Entity;
 using IdendtityCore.Entity.UserEntity;
-using IdendtityCore.Extensions;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
@@ -130,53 +127,6 @@ namespace IdendtityCore.Controllers
             // Handle model state validation errors
             return BadRequest(ModelState);
         }
-
-        //[HttpPost, Route("AddUser")]
-        //public async Task<IActionResult> AddUser(AddUser addUser)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        // Check if the user with the same email already exists
-        //        var existingUser = await userManager.FindByEmailAsync(addUser.Email);
-
-        //        if (existingUser == null)
-        //        {
-
-
-        //            //// Create a new user
-        //            //var newUser = new AppUser
-        //            //{
-        //            //    UserName = addUser.Dealer.,
-        //            //    Email = addUser.Email,
-        //            //    FirstName = addUser.FirstName,
-        //            //    LastName= addUser.LastName,
-        //            //    DealerId = addUser.
-        //            //};
-        //            var hashPassword = PasswordExtensions.CreatePasswordHash(addUser, addUser.PasswordHash);
-
-        //            var result = await userManager.CreateAsync(addUser, hashPassword);
-
-        //            if (result.Succeeded)
-        //            {
-        //                // User created successfully
-        //                return Ok("User created successfully.");
-        //            }
-        //            else
-        //            {
-        //                // Handle errors in result.Errors
-        //                return BadRequest(result.Errors);
-        //            }
-        //        }
-        //        else
-        //        {
-        //            // User with the same email already exists
-        //            return BadRequest("User with the same email already exists.");
-        //        }
-        //    }
-
-        //    // Handle model state validation errors
-        //    return BadRequest(ModelState);
-        //}
 
         [HttpPost, Route("AddUser")]
         public async Task<IActionResult> Register(AddUser model)
