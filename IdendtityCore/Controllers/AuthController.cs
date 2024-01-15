@@ -159,6 +159,45 @@ namespace IdendtityCore.Controllers
             // Model is not valid, return validation errors
             return BadRequest(ModelState);
         }
+
+        [HttpPost("ResetPassword")]
+        public async Task<IActionResult> ResetPassword(ResetPassword resetPassword)
+        {
+
+            //kullanıcıya şifre sıfırlama tokenı gönderilir,şifre değiştirme metoduna bu istek geldiğinde token okunur.
+            //token içeriği kullanıcı adı, tarih saat, token süresi 
+            //bu token oluşturulur kullanıcıya mail atılır.
+            //
+            if (ModelState.IsValid)
+            {
+                var user = await userManager.FindByEmailAsync(resetPassword.Email);
+
+                if (user == null)
+                {
+                    // Kullanıcı bulunamadı
+                    return BadRequest("Invalid email address.");
+                }
+                var token = await userManager.GeneratePasswordResetTokenAsync(user);
+               
+                //await _emailSender.SendEmailAsync(model.Email);
+
+              var result = await userManager.ResetPasswordAsync(user, token, resetPassword.NewPassword);
+
+                if (result.Succeeded)
+                {
+                    // Şifre sıfırlama başarılı
+                    return Ok("Password reset successfully.");
+                }
+                else
+                {
+                    // Hata durumunda
+                    return BadRequest(result.Errors);
+                }
+            }
+
+            // Model doğrulama hatası
+            return BadRequest(ModelState);
+        }
     }
 
 }
