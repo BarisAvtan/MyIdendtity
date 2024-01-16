@@ -11,7 +11,8 @@ namespace IdendtityCore.Extensionss
         public static IServiceCollection LoadDataLayerExtension(this IServiceCollection services, IConfiguration config)
         {
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
-            services.AddDbContext<ApplicationContext>(opt => opt.UseSqlServer(config.GetConnectionString("DefaultConnection")));
+            //services.AddDbContext<ApplicationContext>(opt => opt.UseSqlServer(config.GetConnectionString("DefaultConnection")));
+            services.AddDbContext<ApplicationContext>(opt => opt.UseNpgsql(config.GetConnectionString("DefaultConnection")));
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             return services;
